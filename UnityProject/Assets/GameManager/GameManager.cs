@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField, Header("Timer")]float _timer = 30;
+    [SerializeField, Header("Timer")] float _timer = 30;
     public static int _score;
     
     GameState _state = GameState.Game;
     public GameState State {get { return _state; } set { _state = value; } }
-
+    public float Timer => _timer;
     // Start is called before the first frame update
     void Start()
     {
