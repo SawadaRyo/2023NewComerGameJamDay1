@@ -5,10 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField, Header("Timer")]float _timer = 30;
-    /// <summary>“G‚ð‰½‘Ì“|‚µ‚½‚©</summary>
     public static int _score;
+    
     GameState _state = GameState.Game;
-    public GameState gameState { get { return _state; } set { _state = value; } }
+    public GameState State {get { return _state; } set { _state = value; } }
 
     // Start is called before the first frame update
     void Start()
