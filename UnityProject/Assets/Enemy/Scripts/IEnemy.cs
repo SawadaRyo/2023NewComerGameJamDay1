@@ -9,11 +9,19 @@ public interface IEnemy
     /// </summary>
     public void Move();
     /// <summary>
-    /// エネミーが生成された時
+    /// エネミーのインスタンス時実行関数
     /// </summary>
-    public void Create();
+    public void Instance();
     /// <summary>
-    /// エネミーが死んだときの処理
+    /// エネミーの生成時実行関数
+    /// </summary>
+    public void Create(Transform generatePos);
+    /// <summary>
+    /// プレイヤーの攻撃ヒット時関数
+    /// </summary>
+    public void Hit();
+    /// <summary>
+    /// エネミーの死亡時実行関数
     /// </summary>
     public void Death();
 }
