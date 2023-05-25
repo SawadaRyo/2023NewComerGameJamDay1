@@ -44,7 +44,6 @@ public class Enemy : MonoBehaviour, IEnemy
     public void Move(float speed, Transform playerTransform)
     {
         float distansX = playerTransform.position.x - transform.position.x;
-        Debug.Log(distansX);
         if (Mathf.Abs(distansX) > 0.1f)
         {
             Vector2 moveVec = new Vector2(distansX, _rb.velocity.y);
@@ -79,12 +78,15 @@ public class Enemy : MonoBehaviour, IEnemy
         _animator.SetBool("Death",true);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.collider.tag == "Player")
         {
             Hit();
         }
+        else if (collision.collider.tag == "Ground")
+        {
+            _animator.SetTrigger("OnGround");
+        }
     }
-
 }
