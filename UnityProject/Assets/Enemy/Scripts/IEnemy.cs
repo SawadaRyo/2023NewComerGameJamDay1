@@ -11,15 +11,9 @@ public interface IEnemy
     /// </summary>
     public void Move(float speed, Transform playerTransform);
     /// <summary>
-    /// エネミーのジャンプ
-    /// </summary>
-    /// <param name="jumpPower"></param>
-    /// <param name="playerTransform"></param>
-    public void Jump(float jumpPower, float interval);
-    /// <summary>
     /// エネミーのインスタンス時実行関数
     /// </summary>
-    public void Instance(Transform playerTransform);
+    public void Instance(EnemyManager enemyManager,Transform playerTransform);
     /// <summary>
     /// エネミーの生成時実行関数
     /// </summary>

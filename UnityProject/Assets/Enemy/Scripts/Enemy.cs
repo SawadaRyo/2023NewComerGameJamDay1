@@ -7,13 +7,11 @@ public class Enemy : MonoBehaviour, IEnemy
 {
     [SerializeField, Header("エネミーのスピード")]
     float _speed = 5f;
-    [SerializeField, Header("エネミーのジャンプ力")]
-    float _jumpPower = 3f;
-    [SerializeField,Range(0.1f,1), Header("エネミーのジャンプのインターバル")]
-    float _jumpInterval = 0.5f;
+    [SerializeField,Header("エネミーのアニメーション")]
+    Animator _animator;
     [SerializeField, Header("当たり判定")]
     Collider2D _collider;
-    [SerializeField, Header("エネミーのImage")]
+    [SerializeField, Header("エネミーの画像")]
     Renderer _renderer;
     [SerializeField, Header("")]
     Rigidbody2D _rb;
@@ -21,14 +19,15 @@ public class Enemy : MonoBehaviour, IEnemy
     [Tooltip("")]
     bool _isActive = false;
     [Tooltip("")]
-    bool _onGround = false;
-    [Tooltip("")]
     Transform _playerTransform;
+    [Tooltip("")]
+    EnemyManager _enemyManager;
 
     public bool IsActive => _isActive;
 
-    public void Instance(Transform playerTransForm)
+    public void Instance(EnemyManager enemyManager,Transform playerTransForm)
     {
+        _enemyManager = enemyManager;
         _playerTransform = playerTransForm;
         _isActive = false;
         _rb.isKinematic = true;
@@ -39,12 +38,6 @@ public class Enemy : MonoBehaviour, IEnemy
             .Subscribe(_ =>
             {
                 Move(_speed,_playerTransform);
-            }).AddTo(this);
-        Observable.EveryUpdate()
-            .Where(_ => JumpJudge(_playerTransform))
-            .Subscribe(_ =>
-            {
-                Jump(_jumpPower, _jumpInterval);
             }).AddTo(this);
     }
 
@@ -62,24 +55,10 @@ public class Enemy : MonoBehaviour, IEnemy
             _rb.velocity = new Vector2(0f, _rb.velocity.y);
         }
     }
-
-    public async void Jump(float jumpPower, float interval)
-    {
-        await UniTask.Delay(TimeSpan.FromSeconds(interval));
-        _rb.AddForce(transform.up * _jumpPower, ForceMode2D.Impulse);
-        _onGround = false;
-    }
-
-    bool JumpJudge(Transform playerTransform)
-    {
-        float distansY = playerTransform.position.y - transform.position.y;
-        if (distansY >= 1f && _onGround) return true;
-        return false;
-    }
-
     public void Create(Transform generatePos)
     {
         gameObject.transform.position = generatePos.position;
+        _animator.SetBool("Death", false);
         _isActive = true;
         _rb.isKinematic = false;
         _collider.enabled = true;
@@ -88,10 +67,16 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public void Death()
     {
+        _enemyManager.DeathCounter();
         _isActive = false;
         _rb.isKinematic = true;
         _collider.enabled = false;
         _renderer.enabled = false;
+    }
+
+    public void Hit()
+    {
+        _animator.SetBool("Death",true);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -100,14 +85,6 @@ public class Enemy : MonoBehaviour, IEnemy
         {
             Hit();
         }
-        else if(collision.tag == "Ground")
-        {
-            _onGround = true;
-        }
     }
 
-    public void Hit()
-    {
-
-    }
 }
