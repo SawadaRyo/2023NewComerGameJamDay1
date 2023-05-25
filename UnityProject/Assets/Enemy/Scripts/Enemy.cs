@@ -11,11 +11,17 @@ public class Enemy : MonoBehaviour,IEnemy
 
     public void Move()
     {
-        
+
     }
 
-    public void Create()
+    public void Instance()
     {
+
+    }
+
+    public void Create(Transform generatePos)
+    {
+        gameObject.transform.position = generatePos.position;
         _collider.enabled = true;
         _renderer.enabled = true;
     }
@@ -32,5 +38,10 @@ public class Enemy : MonoBehaviour,IEnemy
         {
             Death();
         }
+    }
+
+    public void Hit()
+    {
+        throw new System.NotImplementedException();
     }
 }
