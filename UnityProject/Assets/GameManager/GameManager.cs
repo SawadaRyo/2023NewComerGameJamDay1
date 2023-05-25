@@ -6,20 +6,26 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField, Header("Timer")] float _timer = 30;
     public static int _score;
-    
-    GameState _state = GameState.Game;
+    [SerializeField, Header("Clearシーン名")] string _clearSeceneName;
+    [SerializeField, Header("Overシーン名")] string _overSeceneName;
+    [SerializeField]GameState _state = GameState.None;
     public GameState State {get { return _state; } set { _state = value; } }
     public float Timer => _timer;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        _timer = 30;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _timer -= Time.deltaTime;
+        if (_state == GameState.Game)
+        {
+            _timer -= Time.deltaTime;
+        }
+
         if (_timer <= 0)
         {
             _state = GameState.GameClear;
@@ -28,21 +34,18 @@ public class GameManager : MonoBehaviour
         switch(_state)
         {
             case GameState.GameClear:
-                //敵倒し数を参照
-                //シーン遷移
+                _score = FindObjectOfType<EnemyManager>().DeathCount;
+                FindObjectOfType<SceneTranstion>().SwitchScrene(_clearSeceneName);
                 break;
             case GameState.GameOver:
-                //シーン遷移
+                FindObjectOfType<SceneTranstion>().SwitchScrene(_overSeceneName);
                 break;
         }
-    }
-    public void ScoreReset()
-    {
-        _score = 0;
     }
 
     public enum GameState
     {
+        None,
         Game,
         GameClear,
         GameOver,

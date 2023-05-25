@@ -6,24 +6,29 @@ using UnityEngine.Analytics;
 
 public class Attack : MonoBehaviour
 {
-    public GameObject specialAttackPrefab;//“ÁêUŒ‚
+    public SlashAttack specialAttackPrefab;//“ÁêUŒ‚
     public Transform attackPoint; //aŒ‚‚Ì”­ËˆÊ’u
     private int specialAttackPrefabCount = 0;
     [SerializeField] GameObject[] gameObjects;
-    
+    Animator _anim;
 
+    private void Start()
+    {
+        _anim = GetComponent<Animator>();
+    }
     // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) //¶ƒNƒŠƒbƒN ’ÊíUŒ‚
         {
-            
+            _anim.SetTrigger("Attack");
         }
 
         if ((Input.GetMouseButtonDown(1)) && specialAttackPrefabCount < 3)//‰EƒNƒŠƒbƒN@“ÁêUŒ‚ Œü‚¢‚½•ûŒü‚ÉaŒ‚
         {
-            Instantiate(specialAttackPrefab, attackPoint.position, attackPoint.rotation);
-
+            _anim.SetTrigger("Attack");
+            var slash = Instantiate(specialAttackPrefab);
+            slash.Generate(transform);
             gameObjects[specialAttackPrefabCount].SetActive(false);
             specialAttackPrefabCount++;
             

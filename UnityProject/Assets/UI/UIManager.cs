@@ -13,13 +13,18 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        _ienemyManager = FindObjectOfType<EnemyManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _timer.text = $"{_gameManager.Timer}";
-        _score.text = $"{_ienemyManager.DeathCount}";
+        if (_timer != null)
+        {
+            _timer.text = $"{_gameManager.Timer.ToString("F2")}";
+        }
+        if (_score != null)
+        {
+            _score.text = $"{GameManager._score}";
+        }
     }
 }

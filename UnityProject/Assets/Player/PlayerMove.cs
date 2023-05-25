@@ -47,11 +47,23 @@ public class PlayerMove : MonoBehaviour
         _anim.SetFloat("Move", rb.velocity.magnitude);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Enemy"))
-        {
-            _anim.SetBool("Death",true);
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.CompareTag("Enemy"))
+    //    {
+    //        _anim.SetBool("Death",true);
+    //    }
+    //}
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+        
+    //}
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.TryGetComponent<Enemy>(out _))
+    //    {
+    //        //_anim.SetBool("Death", true);
+    //    }
+    //}
 }

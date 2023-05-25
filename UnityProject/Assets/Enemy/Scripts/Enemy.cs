@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour, IEnemy
 {
     [SerializeField, Header("エネミーのスピード")]
     float _speed = 5f;
-    [SerializeField,Header("エネミーのアニメーション")]
+    [SerializeField, Header("エネミーのアニメーション")]
     Animator _animator;
     [SerializeField, Header("当たり判定")]
     Collider2D _collider;
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public bool IsActive => _isActive;
 
-    public void Instance(EnemyManager enemyManager,Transform playerTransForm)
+    public void Instance(EnemyManager enemyManager, Transform playerTransForm)
     {
         _enemyManager = enemyManager;
         _playerTransform = playerTransForm;
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour, IEnemy
             .Where(_ => _isActive)
             .Subscribe(_ =>
             {
-                Move(_speed,_playerTransform);
+                Move(_speed, _playerTransform);
             }).AddTo(this);
     }
 
@@ -46,8 +46,8 @@ public class Enemy : MonoBehaviour, IEnemy
         float distansX = playerTransform.position.x - transform.position.x;
         if (Mathf.Abs(distansX) > 0.1f)
         {
-            Vector2 moveVec = new Vector2(distansX, _rb.velocity.y);
-            _rb.velocity = moveVec.normalized * speed;
+            Vector2 moveVec = new Vector2(distansX, 0).normalized;
+            _rb.velocity = new Vector2(moveVec.x, _rb.velocity.y).normalized * speed;
         }
         else if (Mathf.Abs(distansX) <= 0.1f)
         {
@@ -66,27 +66,35 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public void Death()
     {
-        _enemyManager.DeathCounter();
+        
         _isActive = false;
-        _rb.isKinematic = true;
-        _collider.enabled = false;
         _renderer.enabled = false;
     }
 
     public void Hit()
     {
-        _animator.SetBool("Death",true);
+        if (_isActive)
+        {
+            _enemyManager.DeathCounter();
+        }
+        _collider.enabled = false;
+        _rb.isKinematic = true;
+        _animator.SetBool("Death", true);
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.tag == "Player")
+        if (collision.tag == "Attack")
         {
             Hit();
         }
-        else if (collision.collider.tag == "Ground")
+        else if (collision.TryGetComponent<PlayerMove>(out _))
+        {
+            FindObjectOfType<GameManager>().State = GameManager.GameState.GameOver;
+        }
+        else if (collision.tag == "Ground")
         {
             _animator.SetTrigger("OnGround");
         }
     }
+
 }
