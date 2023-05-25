@@ -44,7 +44,6 @@ public class Enemy : MonoBehaviour, IEnemy
     public void Move(float speed, Transform playerTransform)
     {
         float distansX = playerTransform.position.x - transform.position.x;
-        Debug.Log(distansX);
         if (Mathf.Abs(distansX) > 0.1f)
         {
             Vector2 moveVec = new Vector2(distansX, _rb.velocity.y);
@@ -84,6 +83,10 @@ public class Enemy : MonoBehaviour, IEnemy
         if (collision.tag == "Player")
         {
             Hit();
+        }
+        else if(collision.tag == "Ground")
+        {
+            _animator.SetTrigger("OnGround");
         }
     }
 
