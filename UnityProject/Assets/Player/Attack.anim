@@ -39,7 +39,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.5
+        time: 0.35
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -51,7 +51,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: GameObject
+    path: Attack
     classID: 61
     script: {fileID: 0}
   m_PPtrCurves:
@@ -78,7 +78,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1482111001
+      path: 1080829965
       attribute: 3305885265
       script: {fileID: 0}
       typeID: 61
@@ -140,7 +140,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.5
+        time: 0.35
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -152,7 +152,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Enabled
-    path: GameObject
+    path: Attack
     classID: 61
     script: {fileID: 0}
   m_EulerEditorCurves: []

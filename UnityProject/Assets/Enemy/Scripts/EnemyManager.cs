@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
     Transform _playerTransform = null;
     [SerializeField, Header("¶¬‚·‚é“G‚ÌÀ•W")]
     Transform[] _generatePos = null;
-    [SerializeField, Range(3, 10), Header("“G‚Ì¶¬ŠÔŠu")]
+    [SerializeField, Range(0.1f, 10), Header("“G‚Ì¶¬ŠÔŠu")]
     float _intervalTime = 5;
     [SerializeField, Range(1, 100), Header("“G‚Ì‰Šú¶¬")]
     int _enemyCount = 0;
@@ -55,6 +55,7 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
             for (int j = 0; j < count; j++)
             {
                 var enemyPrefab = Instantiate<Enemy>(enemy);
+                Debug.Log($"{i}:{j}");
                 enemyPrefab.Instance(this, _playerTransform);
                 _enemyList[i].Add(enemyPrefab);
             }
@@ -63,7 +64,7 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
 
     public async void GenerateEnemy()
     {
-        var enemy = _enemyList[UnityEngine.Random.Range(0, _enemyList.Length)];
+        var enemy = _enemyList[UnityEngine.Random.Range(0, _enemyList.Length - 1)];
         foreach (var e in enemy)
         {
             if (e.IsActive || !_generateEnabled) continue;
