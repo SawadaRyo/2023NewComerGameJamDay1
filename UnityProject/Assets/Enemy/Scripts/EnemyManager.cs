@@ -23,13 +23,14 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
     [Tooltip("ê∂ê¨ä‘äuí≤êÆópÇÃboolîzóÒ")]
     bool[] _intervalAdjustment = null;
     [Tooltip("")]
-    int _deathCount = 0;
+    IntReactiveProperty _deathCount = new();
     [Tooltip("")]
     List<IEnemy> _enemyList = new List<IEnemy>();
 
     float IntervalTime => UnityEngine.Random.Range(3f, _intervalTime);
 
-    public int DeathCount => _deathCount;
+    public IReadOnlyReactiveProperty<int> DeathCountForUI => _deathCount;
+    public int DeathCount => _deathCount.Value;
 
     void Start()
     {
@@ -48,7 +49,7 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
         for(int i = 0; i < count; i++)
         {
             var enemyPrefab = Instantiate<Enemy>(enemy);
-            enemyPrefab.Instance(_playerTransform);
+            enemyPrefab.Instance(this,_playerTransform);
             _enemyList.Add(enemyPrefab);
         }
     }
@@ -72,6 +73,10 @@ public class EnemyManager : MonoBehaviour, IEnemyManager
 
     public void DeathCounter()
     {
-        _deathCount++;
+        _deathCount.Value++;
+    }
+    public void OnDisable()
+    {
+        _deathCount.Dispose();
     }
 }
