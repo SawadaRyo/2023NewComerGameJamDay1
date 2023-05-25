@@ -78,16 +78,15 @@ public class Enemy : MonoBehaviour, IEnemy
         _animator.SetBool("Death",true);
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.tag == "Player")
+        if (collision.collider.tag == "Player")
         {
             Hit();
         }
-        else if(collision.tag == "Ground")
+        else if (collision.collider.tag == "Ground")
         {
             _animator.SetTrigger("OnGround");
         }
     }
-
 }
