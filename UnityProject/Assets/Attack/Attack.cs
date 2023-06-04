@@ -11,10 +11,11 @@ public class Attack : MonoBehaviour
     private int specialAttackPrefabCount = 0;
     [SerializeField] GameObject[] gameObjects;
     Animator _anim;
-
+    PlayerSFXController _playerSFXController;
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        _playerSFXController = GetComponent<PlayerSFXController>();
     }
     // Update is called once per frame
     void Update()
@@ -22,17 +23,17 @@ public class Attack : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) //左クリック 通常攻撃
         {
             _anim.SetTrigger("Attack");
+            _playerSFXController.AttackAudio();
         }
 
         if ((Input.GetMouseButtonDown(1)) && specialAttackPrefabCount < 3)//右クリック　特殊攻撃 向いた方向に斬撃
         {
             _anim.SetTrigger("Attack");
+            _playerSFXController.SpecialAttackAudio();
             var slash = Instantiate(specialAttackPrefab);
             slash.Generate(transform);
             gameObjects[specialAttackPrefabCount].SetActive(false);
             specialAttackPrefabCount++;
-            
-            
         }
         
         

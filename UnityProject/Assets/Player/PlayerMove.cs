@@ -42,7 +42,17 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        
+        Vector3 pos = transform.position;
+        //ˆÚ“®”ÍˆÍ‚ð•t‚¯‚½
+        if(transform.position.x < -7 && h == -1)
+        {
+           pos.x = -7;
+        }
+        else if(transform.position.x > 8 && h == 1)
+        {
+            pos.x = 8;
+        }
+        transform.position = pos ;
 
         _anim.SetFloat("Move", rb.velocity.magnitude);
     }
