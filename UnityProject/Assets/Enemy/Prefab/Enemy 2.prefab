@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5d4c3dc62f2d143a2fdca72be5e075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 7
+  _speed: 5.5
   _animator: {fileID: 8986036729586366678}
   _collider: {fileID: 2089714429938906784}
   _renderer: {fileID: 439053814352783364}
